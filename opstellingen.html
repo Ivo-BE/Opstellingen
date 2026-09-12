@@ -1,0 +1,458 @@
+<!doctype html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Opstellingen</title>
+<meta name="theme-color" content="#2456B8">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Opstelling">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%232456B8'/%3E%3Crect x='14' y='30' width='72' height='48' fill='%23EF8A3A' stroke='%23fff' stroke-width='3'/%3E%3Cline x1='14' y1='54' x2='86' y2='54' stroke='%23fff' stroke-width='2' stroke-dasharray='4 3'/%3E%3Cline x1='38' y1='30' x2='38' y2='78' stroke='%23fff' stroke-width='2'/%3E%3Cline x1='62' y1='30' x2='62' y2='78' stroke='%23fff' stroke-width='2'/%3E%3Cline x1='8' y1='24' x2='92' y2='24' stroke='%23fff' stroke-width='5'/%3E%3C/svg%3E">
+<link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%232456B8'/%3E%3Crect x='14' y='30' width='72' height='48' fill='%23EF8A3A' stroke='%23fff' stroke-width='3'/%3E%3Cline x1='14' y1='54' x2='86' y2='54' stroke='%23fff' stroke-width='2' stroke-dasharray='4 3'/%3E%3Cline x1='38' y1='30' x2='38' y2='78' stroke='%23fff' stroke-width='2'/%3E%3Cline x1='62' y1='30' x2='62' y2='78' stroke='%23fff' stroke-width='2'/%3E%3Cline x1='8' y1='24' x2='92' y2='24' stroke='%23fff' stroke-width='5'/%3E%3C/svg%3E">
+<link rel="manifest" href="manifest.json">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;700&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{--bg:#EEF1F5;--paper:#FFFFFF;--ink:#101B33;--mute:#5C6780;--line:#D5DAE3;--court:#EF8A3A;--zone:#2456B8;--ok:#1F8A4C;--warn:#B3261E}
+  *{box-sizing:border-box}
+  html,body{margin:0;overflow-x:hidden;background:var(--bg);color:var(--ink);font:15px/1.45 Barlow,system-ui,sans-serif}
+  h1,h2,h3{font-family:"Barlow Condensed",Barlow,sans-serif;font-weight:700;margin:0;letter-spacing:.01em}
+  h2{font-size:22px} h3{font-size:17px;font-weight:500;color:var(--mute)}
+  button{font:inherit;cursor:pointer;border:1px solid var(--line);background:var(--paper);color:var(--ink);padding:7px 12px;border-radius:6px}
+  button:hover{border-color:var(--ink)}
+  button.primary{background:var(--ink);color:#fff;border-color:var(--ink);font-weight:600}
+  button.primary:hover{background:#243456}
+  button.ghost{border-color:transparent;color:var(--mute);padding:4px 8px}
+  button.ghost:hover{color:var(--warn);border-color:transparent}
+  button:disabled{opacity:.45;cursor:default}
+  button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid #7AA2FF;outline-offset:1px}
+  input,select{font:inherit;color:var(--ink);background:var(--paper);border:1px solid var(--line);border-radius:6px;padding:7px 9px;min-width:0}
+  .wrap{max-width:1180px;margin:0 auto;padding:20px 18px 60px}
+  header{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:22px}
+  header input.team{font-family:"Barlow Condensed";font-size:34px;font-weight:700;border:0;border-bottom:2px solid var(--line);border-radius:0;padding:0 0 2px;background:transparent;width:min(420px,90vw)}
+  .status{color:var(--mute);font-size:13px}
+  .io{display:flex;gap:6px;margin-top:6px;flex-wrap:wrap}.io button{padding:5px 10px;font-size:13px}
+  .grid{display:grid;grid-template-columns:300px 1fr;gap:22px;align-items:start}
+  .side{display:grid;gap:22px}
+  .grid>*,.side>*{min-width:0}
+  .panel{background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:16px}
+  .panel h2{margin-bottom:12px}
+  .panel .head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:12px}.panel .head h2{margin:0}
+  /* roster */
+  .roster{width:100%;border-collapse:collapse;table-layout:fixed}
+  .roster td{padding:3px 2px;border-bottom:1px solid var(--line)}
+  .roster td:first-child{width:56px}.roster td:nth-child(3){width:64px}.roster td:last-child{width:32px}
+  .roster input.nr{width:48px;text-align:center;font-weight:600}
+  .roster input.nm{width:100%}
+  .roster .tag{display:inline-flex;gap:2px}
+  .roster .tag label{font-size:12px;border:1px solid var(--line);border-radius:4px;padding:2px 5px;cursor:pointer;color:var(--mute);user-select:none}
+  .roster .tag input{display:none}
+  .roster .tag input:checked+span{background:var(--ink);color:#fff}
+  .roster .tag label span{display:block;margin:-2px -5px;padding:2px 5px;border-radius:3px}
+  .addrow{margin-top:10px;display:flex;gap:8px}.addrow input{min-width:0}
+  /* match */
+  .matchhead{display:grid;grid-template-columns:1fr 130px auto;gap:10px;align-items:center;margin-bottom:14px}
+  .seg{display:inline-flex;border:1px solid var(--line);border-radius:6px;overflow:hidden}
+  .seg button{border:0;border-radius:0;padding:7px 12px}
+  .seg button.on{background:var(--zone);color:#fff}
+  .tabs{display:none}
+  .sets{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:14px}
+  .set{border:1px solid var(--line);border-radius:10px;padding:12px;background:#FAFBFD}
+  .set .top{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+  .scorebox{display:flex;align-items:center;gap:4px}
+  .scorebox .sc{display:inline-flex;align-items:center;border:1px solid var(--line);border-radius:6px;overflow:hidden;background:var(--paper)}
+  .scorebox .sc button{border:0;border-radius:0;padding:6px 9px;font-weight:600;color:var(--mute)}
+  .scorebox .sc input{border:0;width:34px;text-align:center;padding:6px 0;font:700 17px "Barlow Condensed"}
+  .scorebox .sep{color:var(--mute);padding:0 2px}
+  .court{background:var(--zone);padding:10px 10px 12px;border-radius:8px}
+  .net{height:0;border-top:3px solid #fff;margin:0 -10px 8px;position:relative}
+  .net:after{content:"net";position:absolute;right:10px;top:-19px;color:#fff;font-size:11px;letter-spacing:.06em;opacity:.8}
+  .floor{background:var(--court);border:2px solid #fff;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));grid-template-rows:1fr 1fr}
+  .pos{position:relative;border:1px solid rgba(255,255,255,.55);min-height:58px;display:flex;align-items:stretch;min-width:0}
+  .pos:nth-child(-n+3){border-bottom:2px dashed #fff}
+  .pos small{position:absolute;left:4px;top:3px;font-size:10px;color:#fff;font-family:"Barlow Condensed";font-weight:700;letter-spacing:.04em;z-index:1}
+  .pos select,.pos button{appearance:none;-webkit-appearance:none;width:100%;border:0;border-radius:0;background:transparent;color:#fff;font:700 17px/1.1 "Barlow Condensed";text-align:center;padding:16px 2px 6px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;position:relative}
+  .pos select:hover,.pos button:hover{background:rgba(255,255,255,.14)}
+  .pos button:disabled{opacity:.85}
+  .pos select option{color:var(--ink);font:15px Barlow}
+  .pos.dup select{background:rgba(179,38,30,.55)}
+  .pos.serve small:after{content:" \2022 service";}
+  .pos button i{position:absolute;right:3px;top:3px;font:600 9px Barlow;font-style:normal;background:#fff;color:var(--zone);border-radius:3px;padding:0 3px}
+  .toolrow{display:flex;align-items:center;gap:6px;margin-top:8px;flex-wrap:wrap}
+  .toolrow button{padding:6px 10px;font-size:13px}
+  .hint{font-size:12px;color:var(--mute)}
+  .set .extra{margin-top:8px;display:grid;gap:6px}
+  .set .extra label{font-size:12px;color:var(--mute);display:block}
+  .set .extra select,.set .extra input{width:100%}
+  .sublog{font-size:13px;padding:2px 0;line-height:1.4}
+  .bench{margin-top:10px;font-size:12px;color:var(--mute)}.bench b{color:var(--ink);font-weight:600}
+  .actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px;align-items:center}
+  .msg{font-size:13px;color:var(--ok)}
+  /* modal */
+  .modal{position:fixed;inset:0;background:rgba(16,27,51,.45);display:flex;align-items:flex-end;justify-content:center;z-index:20}
+  .sheet{background:var(--paper);width:100%;max-width:460px;max-height:88vh;overflow:auto;border-radius:14px 14px 0 0;padding:18px 16px calc(18px + env(safe-area-inset-bottom));display:grid;gap:12px;align-content:start}
+  .sheet p{margin:0;color:var(--mute)}
+  .choices{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:8px}
+  .choices button{padding:12px 8px;font-family:"Barlow Condensed";font-weight:700;font-size:18px;border-color:var(--zone);color:var(--zone)}
+  .choices button:hover{background:var(--zone);color:#fff}
+  .sheet label{font-size:12px;color:var(--mute);display:grid;gap:4px}
+  .sheet pre{margin:0;white-space:pre-wrap;font:13px/1.5 Barlow,system-ui;background:#F3F6FC;padding:10px;border-radius:8px}
+  .sheet .row{display:flex;gap:8px;flex-wrap:wrap}
+  .stats{width:100%;border-collapse:collapse;font-size:13px}
+  .stats th,.stats td{padding:5px 4px;border-bottom:1px solid var(--line);text-align:right}
+  .stats th:first-child,.stats td:first-child{text-align:left}
+  .stats th{font-weight:600;color:var(--mute);font-size:12px}
+  /* history */
+  .hist{list-style:none;margin:0;padding:0}
+  .hist li{display:grid;grid-template-columns:96px 1fr auto;gap:10px;align-items:center;padding:9px 0;border-bottom:1px solid var(--line)}
+  .hist li.cur{background:#F3F6FC;margin:0 -8px;padding:9px 8px;border-radius:6px}
+  .hist .d{font-family:"Barlow Condensed";font-weight:700;font-size:18px}
+  .hist .o{font-weight:500}.hist .o span{color:var(--mute);font-weight:400}
+  .hist .r{font-size:13px;color:var(--mute)}
+  .empty{color:var(--mute);padding:14px 0}
+  @media(min-width:841px){.modal{align-items:center}.sheet{border-radius:14px}}
+  @media(max-width:840px){
+    .wrap{padding:14px 12px 96px}
+    header input.team{font-size:26px} header{margin-bottom:14px}
+    .grid{grid-template-columns:1fr;gap:14px} .side{order:2}
+    .panel{padding:12px;border-radius:8px}
+    .tabs{display:flex;gap:6px;margin-bottom:12px}
+    .tabs button{flex:1 1 0;min-width:0;padding:10px 4px;font-family:"Barlow Condensed";font-weight:700;font-size:17px}
+    .tabs button.on{background:var(--zone);color:#fff;border-color:var(--zone)}
+    .tabs button.done{border-color:var(--ink)}
+    .sets{grid-template-columns:1fr;gap:0}
+    .set{display:none;border:0;padding:0;background:transparent}.set.active{display:block}
+    .set h2{font-size:26px}
+    .pos{min-height:66px}.pos select,.pos button{font-size:19px;padding:22px 3px 8px}
+    .scorebox .sc button{padding:9px 12px;font-size:17px}.scorebox .sc input{width:38px;font-size:20px}
+    .actions{position:fixed;left:0;right:0;bottom:0;margin:0;padding:10px 12px calc(10px + env(safe-area-inset-bottom));background:var(--paper);border-top:1px solid var(--line);z-index:5;gap:6px}
+    .actions button{padding:11px 8px;flex:1 1 auto;font-size:14px}
+    .actions .msg{flex-basis:100%;text-align:center;order:-1;margin:0}.actions .msg:empty{display:none}
+    .actions #print{display:none}
+    button,input,select{font-size:16px}
+    .roster input.nr{width:44px;padding:7px 4px}.roster .tag label{padding:6px 7px}
+    .hist li{grid-template-columns:70px 1fr;grid-template-rows:auto auto;gap:2px 10px}
+    .hist li>span:last-child{grid-column:1/-1;display:flex;gap:4px}.hist li>span:last-child button{flex:1;padding:8px}
+  }
+  @media(max-width:560px){.matchhead{grid-template-columns:1fr 1fr}.matchhead #opp{grid-column:1/-1}.matchhead .seg{justify-self:end}.seg button{padding:9px 16px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div><h3>Opstellingen</h3><input class="team" id="team" placeholder="Ploegnaam"></div>
+    <div><div class="status" id="status">…</div>
+      <div class="io"><button id="exp">Exporteer</button><button id="shareBackup">Deel backup</button><button id="imp">Importeer</button><button id="csv">Seizoen als Excel</button><input type="file" id="impFile" accept=".json,application/json" hidden></div></div>
+  </header>
+
+  <div class="grid">
+    <div class="side" id="side">
+      <section class="panel">
+        <div class="head"><h2>Spelers</h2><button id="statsBtn">Statistieken</button></div>
+        <table class="roster" id="roster"></table>
+        <div class="addrow"><input class="nr" id="newNr" placeholder="Nr" inputmode="numeric" style="width:56px"><input id="newNm" placeholder="Naam" style="flex:1"><button class="primary" id="addBtn">Voeg toe</button></div>
+      </section>
+      <section class="panel"><h2>Historie</h2><ul class="hist" id="hist"></ul></section>
+    </div>
+
+    <section class="panel" id="match">
+      <div class="matchhead">
+        <input id="opp" placeholder="Tegenstander"><input type="date" id="date">
+        <div class="seg"><button id="home">Thuis</button><button id="away">Uit</button></div>
+      </div>
+      <div class="tabs" id="tabs"></div>
+      <div class="sets" id="sets"></div>
+      <div class="actions">
+        <button class="primary" id="save">Bewaar wedstrijd</button>
+        <button id="new">Nieuwe wedstrijd</button>
+        <button id="copyPrev">Set 1 → alle sets</button>
+        <button id="report">Verslag</button>
+        <button id="print">Afdrukken</button>
+        <span class="msg" id="msg"></span>
+      </div>
+    </section>
+  </div>
+</div>
+
+<script>
+const KEY='vb-lineups:v1';
+// weergavevolgorde op het veld (rij 1 aan het net, rij 2 achter)
+const POS=[['IV','Linksvoor'],['III','Midvoor'],['II','Rechtsvoor'],['V','Linksachter'],['VI','Midachter'],['I','Rechtsachter']];
+// rotatievolgorde in wijzerzin: I -> VI -> V -> IV -> III -> II -> I  (indexen in POS)
+const R=[5,4,3,0,1,2];
+const uid=()=>Math.random().toString(36).slice(2,9);
+const today=()=>new Date().toISOString().slice(0,10);
+let data={team:'',roster:[],matches:[]};
+let activeSet=0,saveTimer=null,modal=null;
+function newSet(){return{pos:['','','','','',''],libero:'',notes:'',subs:[],timeouts:[],rot:0,locked:false,us:'',them:'',hist:[]}}
+function blankMatch(){return{id:uid(),opp:'',date:today(),home:true,sets:Array.from({length:5},newSet)}}
+let cur=blankMatch();
+function fix(st){if(typeof st.subs==='string'){st.notes=st.subs;st.subs=[]}if(!Array.isArray(st.subs))st.subs=[];st.notes??='';st.timeouts??=[];st.rot??=0;st.locked??=st.subs.length>0;st.us??='';st.them??='';st.hist??=[]}
+function migrate(){data.matches.forEach(m=>m.sets.forEach(fix));cur.sets.forEach(fix)}
+
+// ---------- opslag
+const store=(()=>{
+  try{const t='__t';localStorage.setItem(t,'1');localStorage.removeItem(t);
+    return{name:'localStorage',get:async()=>localStorage.getItem(KEY),set:async v=>localStorage.setItem(KEY,v)}}catch(e){}
+  if(window.storage&&window.storage.get)return{name:'artifact',get:async()=>{const r=await window.storage.get(KEY,false);return r?r.value:null},set:async v=>window.storage.set(KEY,v,false)};
+  let mem=null;return{name:'sessie',get:async()=>mem,set:async v=>{mem=v}};
+})();
+async function load(){
+  try{const v=await store.get();if(v)data=Object.assign(data,JSON.parse(v))}catch(e){}
+  migrate();
+  setStatus(store.name==='localStorage'?'Bewaard in de browser van dit apparaat':store.name==='artifact'?'Bewaard in Claude':'Niet bewaard – alleen deze sessie');
+  renderAll();
+}
+function persist(){clearTimeout(saveTimer);saveTimer=setTimeout(async()=>{try{await store.set(JSON.stringify(data))}catch(e){setStatus('Kon niet bewaren – blijft alleen in deze sessie')}},400)}
+const setStatus=t=>document.getElementById('status').textContent=t;
+function flash(t){const m=document.getElementById('msg');m.textContent=t;setTimeout(()=>{if(m.textContent===t)m.textContent=''},2500)}
+const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const fmt=d=>{if(!d)return'';const [y,m,dd]=d.split('-');return `${dd}/${m}/${y.slice(2)}`};
+const player=id=>data.roster.find(p=>p.id===id);
+const label=p=>p?`${p.nr?p.nr+' ':''}${p.name}`:'';
+const short=id=>{const p=player(id);return p?(p.nr||p.name):'?'};
+const score=st=>`${st.us||0}-${st.them||0}`;
+
+// ---------- spelers
+function renderRoster(){
+  const t=document.getElementById('roster');t.innerHTML='';
+  data.roster.sort((a,b)=>(+a.nr||999)-(+b.nr||999));
+  if(!data.roster.length){t.innerHTML='<tr><td class="empty">Nog geen spelers. Voeg hieronder je ploeg toe.</td></tr>';return}
+  data.roster.forEach(p=>{
+    const tr=document.createElement('tr');
+    tr.innerHTML=`<td><input class="nr" value="${esc(p.nr)}" inputmode="numeric"></td><td><input class="nm" value="${esc(p.name)}"></td>
+      <td><span class="tag"><label title="Libero"><input type="checkbox" ${p.lib?'checked':''}><span>L</span></label><label title="Kapitein"><input type="checkbox" ${p.cap?'checked':''}><span>C</span></label></span></td>
+      <td><button class="ghost" title="Verwijder">×</button></td>`;
+    const [nr,nm,lib,cap]=tr.querySelectorAll('input');
+    nr.onchange=()=>{p.nr=nr.value.trim();persist();renderRoster();renderSets()};
+    nm.onchange=()=>{p.name=nm.value.trim();persist();renderSets()};
+    lib.onchange=()=>{p.lib=lib.checked;persist();renderSets()};
+    cap.onchange=()=>{p.cap=cap.checked;persist()};
+    tr.querySelector('button').onclick=()=>{if(confirm(`${p.name} verwijderen uit de ploeg?`)){data.roster=data.roster.filter(x=>x!==p);persist();renderRoster();renderSets()}};
+    t.appendChild(tr);
+  });
+}
+document.getElementById('addBtn').onclick=addPlayer;
+document.getElementById('newNm').onkeydown=e=>{if(e.key==='Enter')addPlayer()};
+function addPlayer(){const nr=document.getElementById('newNr'),nm=document.getElementById('newNm');if(!nm.value.trim())return nm.focus();
+  data.roster.push({id:uid(),nr:nr.value.trim(),name:nm.value.trim(),lib:false,cap:false});nr.value='';nm.value='';nr.focus();persist();renderRoster();renderSets()}
+
+// ---------- wisselregels & rotatie
+const lineup=st=>{const l=[...st.pos];st.subs.forEach(w=>{l[w.k]=w.in});return l};           // huidige zes, in startslots
+const dispIndex=(st,k)=>R[(R.indexOf(k)+st.rot)%6];                                            // startslot k -> zichtbare positie
+const baseIndex=(st,d)=>R[(R.indexOf(d)-st.rot+6)%6];                                          // zichtbare positie -> startslot
+function allowedSubs(st,k){
+  const l=lineup(st);const out=l[k];if(!out||st.subs.length>=6)return[];
+  const starter=st.pos[k];if(st.subs.filter(w=>w.k===k).length>=2)return[];
+  if(out!==starter)return[player(starter)].filter(Boolean);
+  const busy=new Set(st.subs.flatMap(w=>[w.in,w.out])),onCourt=new Set(l);
+  return data.roster.filter(p=>!onCourt.has(p.id)&&p.id!==st.libero&&!p.lib&&!busy.has(p.id)&&!st.pos.includes(p.id));
+}
+function snap(st,what){st.hist.push({what,us:st.us,them:st.them,timeouts:[...st.timeouts],subs:JSON.parse(JSON.stringify(st.subs)),rot:st.rot});if(st.hist.length>40)st.hist.shift()}
+function undo(st){const h=st.hist.pop();if(!h)return;Object.assign(st,{us:h.us,them:h.them,timeouts:h.timeouts,subs:h.subs,rot:h.rot});renderSets();flash('Ongedaan: '+h.what)}
+const subText=st=>st.subs.map(w=>`${short(w.out)} → ${short(w.in)}${w.score?' ('+w.score+')':''}`).join(', ');
+
+function openSub(st,k){
+  const out=player(lineup(st)[k]);const opts=allowedSubs(st,k);
+  openModal(`<h2>Wissel op ${POS[dispIndex(st,k)][0]}</h2>
+    <p>${esc(label(out))} gaat eruit. ${opts.length?'Wie komt erin?':st.subs.length>=6?'Maximum van 6 wissels bereikt.':'Geen toegestane wissel meer voor deze positie.'}</p>
+    <div class="choices">${opts.map(p=>`<button data-id="${p.id}">${esc(label(p))}</button>`).join('')}</div>
+    <label>Stand bij wissel <input id="subScore" value="${score(st)}" inputmode="numeric"></label>
+    <button class="ghost" id="mClose">Annuleer</button>`);
+  modal.querySelectorAll('.choices button').forEach(b=>b.onclick=()=>{snap(st,'wissel');st.subs.push({k,out:out.id,in:b.dataset.id,score:modal.querySelector('#subScore').value.trim()});closeModal();renderSets();flash('Wissel vastgelegd')});
+}
+function openModal(html){closeModal();modal=document.createElement('div');modal.className='modal';modal.innerHTML=`<div class="sheet">${html}</div>`;
+  modal.onclick=e=>{if(e.target===modal)closeModal()};const c=modal.querySelector('#mClose');if(c)c.onclick=closeModal;document.body.appendChild(modal)}
+function closeModal(){if(modal){modal.remove();modal=null}}
+
+// ---------- wedstrijd
+document.getElementById('team').oninput=e=>{data.team=e.target.value;persist()};
+document.getElementById('opp').oninput=e=>{cur.opp=e.target.value};
+document.getElementById('date').onchange=e=>{cur.date=e.target.value};
+document.getElementById('home').onclick=()=>{cur.home=true;renderHead()};
+document.getElementById('away').onclick=()=>{cur.home=false;renderHead()};
+function renderHead(){
+  document.getElementById('team').value=data.team;document.getElementById('opp').value=cur.opp;document.getElementById('date').value=cur.date;
+  document.getElementById('home').classList.toggle('on',cur.home);document.getElementById('away').classList.toggle('on',!cur.home);
+}
+function renderSets(){
+  const box=document.getElementById('sets');box.innerHTML='';
+  const opts=sel=>'<option value="">–</option>'+data.roster.map(p=>`<option value="${p.id}" ${p.id===sel?'selected':''}>${esc(label(p))}</option>`).join('');
+  cur.sets.forEach((st,i)=>{
+    const el=document.createElement('div');el.className='set'+(i===activeSet?' active':'');
+    const l=lineup(st),used=st.pos.filter(Boolean),full=used.length===6&&new Set(used).size===6;
+    const cells=POS.map((p,d)=>{
+      if(!st.locked)return`<div class="pos ${st.pos[d]&&used.filter(x=>x===st.pos[d]).length>1?'dup':''}"><small>${p[0]}</small><select title="${p[1]}" data-k="${d}">${opts(st.pos[d])}</select></div>`;
+      const k=baseIndex(st,d),pl=player(l[k]),can=allowedSubs(st,k).length>0;
+      return`<div class="pos live ${d===5?'serve':''}"><small>${p[0]}</small><button data-k="${k}" ${can?'':'disabled'}>${esc(pl?label(pl):'–')}${l[k]!==st.pos[k]?'<i>in</i>':''}</button></div>`;
+    }).join('');
+    const sc=(f,ph)=>`<span class="sc"><button data-sc="${f}" data-d="-1">−</button><input data-f="${f}" value="${esc(st[f])}" placeholder="${ph}" inputmode="numeric"><button data-sc="${f}" data-d="1">+</button></span>`;
+    el.innerHTML=`<div class="top"><h2>Set ${i+1}</h2><span class="scorebox">${sc('us','wij')}<span class="sep">–</span>${sc('them','zij')}</span></div>
+      <div class="court"><div class="net"></div><div class="floor">${cells}</div></div>
+      <div class="toolrow">${st.locked
+        ?`<button data-rot>↻ Draai door</button><button data-rotback title="Rotatie terug" ${st.rot?'':'disabled'}>↺</button><button data-to ${st.timeouts.length>=2?'disabled':''}>Time-out ${st.timeouts.length}/2</button><button data-undo ${st.hist.length?'':'disabled'} title="Laatste actie terugdraaien">↶ Ongedaan${st.hist.length?' ('+st.hist[st.hist.length-1].what+')':''}</button>${st.subs.length?'':'<button class="ghost" data-unlock>Opstelling aanpassen</button>'}`
+        :`<button class="primary" data-lock ${full?'':'disabled'}>Opstelling bevestigen</button><span class="hint">${full?'':'Vul eerst alle zes posities in'}</span>`}</div>
+      ${st.locked?`<div class="hint" style="margin-top:6px">Rotatie ${st.rot} · tik op een speler om te wisselen (${st.subs.length}/6)${st.timeouts.length?' · TO bij '+st.timeouts.join(', '):''}</div>`:''}
+      <div class="extra">
+        <div><label>Libero</label><select data-lib>${'<option value="">–</option>'+data.roster.filter(p=>p.lib||p.id===st.libero).map(p=>`<option value="${p.id}" ${p.id===st.libero?'selected':''}>${esc(label(p))}</option>`).join('')}</select></div>
+        <div><label>Wissels</label><div class="sublog">${st.subs.length?esc(subText(st)):'<span class="hint">nog geen</span>'}</div></div>
+        <div><label>Notities</label><input data-notes value="${esc(st.notes)}" placeholder="bv. blessure 12 bij 20-23"></div>
+      </div>
+      <div class="bench">${benchText(st)}</div>`;
+    el.querySelectorAll('.pos select').forEach(s=>s.onchange=()=>{st.pos[+s.dataset.k]=s.value;renderSets()});
+    el.querySelectorAll('.pos button').forEach(b=>b.onclick=()=>openSub(st,+b.dataset.k));
+    el.querySelectorAll('[data-sc]').forEach(b=>b.onclick=()=>{const f=b.dataset.sc;snap(st,'punt '+(f==='us'?'wij':'zij'));st[f]=String(Math.max(0,(+st[f]||0)+ +b.dataset.d));renderSets()});
+    el.querySelectorAll('[data-f]').forEach(inp=>inp.oninput=()=>{st[inp.dataset.f]=inp.value.replace(/\D/g,'')});
+    const on=(sel,fn)=>{const x=el.querySelector(sel);if(x)x.onclick=fn};
+    on('[data-lock]',()=>{st.locked=true;renderSets()});
+    on('[data-unlock]',()=>{st.locked=false;st.rot=0;st.timeouts=[];st.hist=[];renderSets()});
+    on('[data-undo]',()=>undo(st));
+    on('[data-rot]',()=>{snap(st,'rotatie');st.rot=(st.rot+1)%6;renderSets()});
+    on('[data-rotback]',()=>{snap(st,'rotatie terug');st.rot=(st.rot+5)%6;renderSets()});
+    on('[data-to]',()=>{snap(st,'time-out');st.timeouts.push(score(st));renderSets();flash('Time-out genoteerd bij '+score(st))});
+    el.querySelector('[data-lib]').onchange=e=>{st.libero=e.target.value;renderSets()};
+    el.querySelector('[data-notes]').oninput=e=>{st.notes=e.target.value};
+    box.appendChild(el);
+  });
+  const tabs=document.getElementById('tabs');tabs.innerHTML='';
+  cur.sets.forEach((st,i)=>{const b=document.createElement('button');b.textContent='Set '+(i+1);b.className=(i===activeSet?'on':'')+(st.locked?' done':'');b.onclick=()=>{activeSet=i;renderSets()};tabs.appendChild(b)});
+}
+function benchText(st){
+  const on=new Set([...lineup(st),st.libero].filter(Boolean));
+  const b=data.roster.filter(p=>!on.has(p.id)).map(p=>p.nr||p.name.split(' ')[0]);
+  const dup=st.pos.filter(Boolean).some((x,i,a)=>a.indexOf(x)!==i);
+  return(dup?'<span style="color:var(--warn)">Zelfde speler staat twee keer op het veld.</span> ':'')+(b.length?`Bank: <b>${b.join(', ')}</b>`:'Iedereen staat op het veld.');
+}
+
+// ---------- verslag
+function reportLines(m){
+  const L=[];const sets=m.sets.filter(st=>st.pos.some(Boolean)||st.us!==''||st.them!=='');
+  const won=sets.filter(st=>+st.us>+st.them).length,lost=sets.filter(st=>+st.them>+st.us).length;
+  const nm=id=>{const p=player(id);return p?label(p):'–'};
+  L.push(`${data.team||'Ploeg'} – ${m.opp} (${m.home?'thuis':'uit'}), ${fmt(m.date)}`);
+  if(sets.some(st=>st.us!==''))L.push(`Uitslag: ${won}–${lost}  (${sets.map(st=>`${st.us||'?'}-${st.them||'?'}`).join(', ')})`);
+  sets.forEach((st,i)=>{
+    L.push('');L.push(`Set ${i+1}${st.us!==''||st.them!==''?`  ${st.us}-${st.them}`:''}`);
+    L.push(`  Start: ${['I','II','III','IV','V','VI'].map(r=>{const k=POS.findIndex(x=>x[0]===r);return r+' '+nm(st.pos[k])}).join(' | ')}`);
+    if(st.libero)L.push(`  Libero: ${nm(st.libero)}`);
+    if(st.subs.length)L.push(`  Wissels: ${st.subs.map(w=>`${nm(w.out)} uit, ${nm(w.in)} in${w.score?' bij '+w.score:''}`).join('; ')}`);
+    if(st.timeouts.length)L.push(`  Time-outs: ${st.timeouts.join(', ')}`);
+    if(st.notes)L.push(`  Notities: ${st.notes}`);
+  });
+  return L;
+}
+function openReport(m){
+  const txt=reportLines(m).join('\n');
+  openModal(`<h2>Verslag</h2><pre>${esc(txt)}</pre><div class="row"><button class="primary" id="rCopy">Kopieer</button>${navigator.share?'<button id="rShare">Deel</button>':''}<button id="rPdf">PDF / afdrukken</button><button class="ghost" id="mClose">Sluit</button></div>`);
+  modal.querySelector('#rCopy').onclick=async()=>{try{await navigator.clipboard.writeText(txt);flash('Verslag gekopieerd')}catch(e){alert('Kopiëren lukte niet; selecteer de tekst handmatig.')}closeModal()};
+  const sh=modal.querySelector('#rShare');if(sh)sh.onclick=()=>navigator.share({title:'Verslag '+m.opp,text:txt}).catch(()=>{});
+  modal.querySelector('#rPdf').onclick=()=>printReport(m);
+}
+function printReport(m){
+  const nm=id=>{const p=player(id);return p?label(p):'–'};
+  const sets=m.sets.filter(st=>st.pos.some(Boolean)||st.us!==''||st.them!=='');
+  const won=sets.filter(st=>+st.us>+st.them).length,lost=sets.filter(st=>+st.them>+st.us).length;
+  const court=st=>`<table class="c"><tr>${[0,1,2].map(d=>`<td><small>${POS[d][0]}</small>${esc(nm(st.pos[d]))}</td>`).join('')}</tr><tr>${[3,4,5].map(d=>`<td><small>${POS[d][0]}</small>${esc(nm(st.pos[d]))}</td>`).join('')}</tr></table>`;
+  const html=`<!doctype html><html lang="nl"><head><meta charset="utf-8"><title>Verslag ${esc(m.opp)}</title><style>
+    body{font:12px/1.4 Helvetica,Arial,sans-serif;color:#111;margin:18mm 16mm}h1{font-size:20px;margin:0 0 2px}h2{font-size:14px;margin:14px 0 4px;border-bottom:1px solid #999;padding-bottom:2px}
+    .sub{color:#555;margin-bottom:10px}.c{border-collapse:collapse;margin:6px 0}.c td{border:1px solid #333;width:38mm;height:11mm;text-align:center;font-weight:600;position:relative;vertical-align:middle}
+    .c td small{position:absolute;left:3px;top:2px;font-weight:400;color:#666}.c tr:first-child td{border-top:3px solid #000}dl{margin:4px 0;display:grid;grid-template-columns:70px 1fr;gap:2px 8px}dt{color:#555}dd{margin:0}
+    @media print{@page{margin:12mm}body{margin:0}}</style></head><body>
+    <h1>${esc(data.team||'Ploeg')} – ${esc(m.opp)}</h1><div class="sub">${m.home?'Thuis':'Uit'} · ${fmt(m.date)}${sets.some(st=>st.us!=='')?` · Uitslag ${won}–${lost} (${sets.map(st=>`${st.us||'?'}-${st.them||'?'}`).join(', ')})`:''}</div>
+    ${sets.map((st,i)=>`<h2>Set ${i+1}${st.us!==''||st.them!==''?` — ${st.us}-${st.them}`:''}</h2>${court(st)}<dl>
+      ${st.libero?`<dt>Libero</dt><dd>${esc(nm(st.libero))}</dd>`:''}
+      <dt>Wissels</dt><dd>${st.subs.length?st.subs.map(w=>`${esc(nm(w.out))} uit, ${esc(nm(w.in))} in${w.score?' bij '+esc(w.score):''}`).join('<br>'):'–'}</dd>
+      <dt>Time-outs</dt><dd>${st.timeouts.length?st.timeouts.join(', '):'–'}</dd>
+      ${st.notes?`<dt>Notities</dt><dd>${esc(st.notes)}</dd>`:''}</dl>`).join('')}
+    <script>window.onload=()=>setTimeout(()=>window.print(),300)<\/script></body></html>`;
+  const w=window.open('','_blank');if(!w){alert('Sta pop-ups toe om het verslag te openen.');return}w.document.write(html);w.document.close();
+}
+
+// ---------- statistieken
+function statsFor(){
+  const S={};data.roster.forEach(p=>S[p.id]={p,matches:new Set(),started:0,subbed:0,libero:0,pos:{I:0,II:0,III:0,IV:0,V:0,VI:0}});
+  data.matches.forEach(m=>m.sets.forEach(st=>{
+    if(!st.pos.some(Boolean))return;
+    st.pos.forEach((id,d)=>{if(S[id]){S[id].started++;S[id].pos[POS[d][0]]++;S[id].matches.add(m.id)}});
+    st.subs.forEach(w=>{if(S[w.in]&&w.in!==st.pos[w.k]){S[w.in].subbed++;S[w.in].matches.add(m.id)}});
+    if(S[st.libero]){S[st.libero].libero++;S[st.libero].matches.add(m.id)}
+  }));
+  return Object.values(S);
+}
+document.getElementById('statsBtn').onclick=()=>{
+  const rows=statsFor().sort((a,b)=>(b.started+b.subbed+b.libero)-(a.started+a.subbed+a.libero));
+  openModal(`<h2>Statistieken</h2><p>${data.matches.length} bewaarde wedstrijd${data.matches.length===1?'':'en'}. Sets gestart, ingevallen en als libero; daarna startposities.</p>
+    <table class="stats"><tr><th>Speler</th><th>Wed.</th><th>Start</th><th>In</th><th>Lib</th><th>I</th><th>II</th><th>III</th><th>IV</th><th>V</th><th>VI</th></tr>
+    ${rows.map(r=>`<tr><td>${esc(label(r.p))}</td><td>${r.matches.size}</td><td>${r.started}</td><td>${r.subbed}</td><td>${r.libero}</td>${['I','II','III','IV','V','VI'].map(k=>`<td>${r.pos[k]||''}</td>`).join('')}</tr>`).join('')}</table>
+    <button class="ghost" id="mClose">Sluit</button>`);
+};
+
+// ---------- historie
+document.getElementById('save').onclick=()=>{
+  if(!cur.opp.trim()){flash('Vul eerst de tegenstander in');document.getElementById('opp').focus();return}
+  const i=data.matches.findIndex(m=>m.id===cur.id),copy=JSON.parse(JSON.stringify(cur));
+  if(i>=0)data.matches[i]=copy;else data.matches.push(copy);persist();renderHist();flash('Wedstrijd bewaard');
+};
+document.getElementById('new').onclick=()=>{cur=blankMatch();activeSet=0;renderHead();renderSets();renderHist();document.getElementById('opp').focus()};
+document.getElementById('copyPrev').onclick=()=>{const s1=cur.sets[0];cur.sets.forEach((s,i)=>{if(i&&!s.subs.length){s.pos=[...s1.pos];s.libero=s1.libero}});renderSets();flash('Set 1 gekopieerd naar set 2–5')};
+document.getElementById('print').onclick=()=>window.print();
+document.getElementById('report').onclick=()=>openReport(cur);
+function renderHist(){
+  const ul=document.getElementById('hist');ul.innerHTML='';
+  const ms=[...data.matches].sort((a,b)=>b.date.localeCompare(a.date));
+  if(!ms.length){ul.innerHTML='<li class="empty">Bewaarde wedstrijden verschijnen hier.</li>';return}
+  ms.forEach(m=>{
+    const li=document.createElement('li');if(m.id===cur.id)li.classList.add('cur');
+    const sets=m.sets.filter(s=>s.us!==''||s.them!=='');
+    const won=sets.filter(s=>+s.us>+s.them).length,lost=sets.filter(s=>+s.them>+s.us).length;
+    li.innerHTML=`<span class="d">${fmt(m.date)}</span><span><div class="o">${esc(m.opp)} <span>${m.home?'thuis':'uit'}</span></div>
+      <div class="r">${sets.length?`${won}–${lost} · `+sets.map(s=>`${s.us}-${s.them}`).join(', '):'geen uitslag'}</div></span>
+      <span><button class="ghost">Open</button><button class="ghost">Verslag</button><button class="ghost">Kopie</button><button class="ghost" title="Verwijder">×</button></span>`;
+    const [op,rp,cp,del]=li.querySelectorAll('button');
+    const go=()=>{renderHead();renderSets();renderHist();document.getElementById('match').scrollIntoView({behavior:'smooth'})};
+    op.onclick=()=>{cur=JSON.parse(JSON.stringify(m));activeSet=0;go()};
+    rp.onclick=()=>openReport(m);
+    cp.onclick=()=>{cur=JSON.parse(JSON.stringify(m));cur.id=uid();cur.opp='';cur.date=today();activeSet=0;cur.sets.forEach(s=>{s.us='';s.them='';s.subs=[];s.notes='';s.timeouts=[];s.rot=0;s.locked=false;s.hist=[]});go();flash('Opstelling overgenomen')};
+    del.onclick=()=>{if(confirm(`Wedstrijd tegen ${m.opp} verwijderen?`)){data.matches=data.matches.filter(x=>x.id!==m.id);persist();renderHist()}};
+    ul.appendChild(li);
+  });
+}
+
+// ---------- export / import / backup / csv
+const fname=ext=>`opstellingen-${(data.team||'ploeg').replace(/\s+/g,'-')}-${today()}.${ext}`;
+function download(name,content,type){const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([content],{type}));a.download=name;a.click()}
+document.getElementById('exp').onclick=()=>download(fname('json'),JSON.stringify(data,null,2),'application/json');
+document.getElementById('shareBackup').onclick=async()=>{
+  const f=new File([JSON.stringify(data)],fname('json'),{type:'application/json'});
+  if(navigator.canShare&&navigator.canShare({files:[f]})){try{await navigator.share({files:[f],title:'Backup opstellingen'})}catch(e){}}
+  else download(fname('json'),JSON.stringify(data,null,2),'application/json');
+};
+document.getElementById('imp').onclick=()=>document.getElementById('impFile').click();
+document.getElementById('impFile').onchange=async e=>{
+  const f=e.target.files[0];if(!f)return;
+  try{const d=JSON.parse(await f.text());if(!Array.isArray(d.roster)||!Array.isArray(d.matches))throw 0;
+    if(!confirm(`${d.roster.length} spelers en ${d.matches.length} wedstrijden importeren? Dit vervangt wat hier staat.`))return;
+    data=d;migrate();cur=blankMatch();activeSet=0;persist();renderAll();flash('Geïmporteerd')}
+  catch(err){alert('Dit bestand is geen geldige export van deze app.')}
+  e.target.value='';
+};
+document.getElementById('csv').onclick=()=>{
+  const nm=id=>{const p=player(id);return p?label(p):''};
+  const q=v=>`"${String(v??'').replace(/"/g,'""')}"`;
+  const rows=[['Datum','Tegenstander','Thuis/Uit','Set','Wij','Zij','I','II','III','IV','V','VI','Libero','Wissels','Time-outs','Notities']];
+  [...data.matches].sort((a,b)=>a.date.localeCompare(b.date)).forEach(m=>m.sets.forEach((st,i)=>{
+    if(!st.pos.some(Boolean)&&st.us===''&&st.them==='')return;
+    rows.push([m.date,m.opp,m.home?'thuis':'uit',i+1,st.us,st.them,...['I','II','III','IV','V','VI'].map(r=>nm(st.pos[POS.findIndex(x=>x[0]===r)])),nm(st.libero),
+      st.subs.map(w=>`${nm(w.out)} uit, ${nm(w.in)} in${w.score?' bij '+w.score:''}`).join('; '),st.timeouts.join(', '),st.notes]);
+  }));
+  download(fname('csv'),'\ufeff'+rows.map(r=>r.map(q).join(';')).join('\r\n'),'text/csv;charset=utf-8');
+};
+
+function renderAll(){renderHead();renderRoster();renderSets();renderHist()}
+load();
+// offline
+if('serviceWorker' in navigator&&location.protocol==='https:')navigator.serviceWorker.register('sw.js').catch(()=>{});
+</script>
+</body>
+</html>
